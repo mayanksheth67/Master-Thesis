@@ -37,7 +37,7 @@
           SELECT ?subject WHERE { 
              ?subject a ?type .
              ?type rdfs:subClassOf* crm:E21_Person .
-             ?subject rso:PX_profession <http://www.researchspace.org/profession/architect> .
+             ?subject rso:PX_profession <http://www.researchspace.org/profession/architect/> .
              ?subject rdfs:label ?label .
              SERVICE <http://www.bigdata.com/rdf/search#search> {
                ?label bds:search ?__token__ ;
@@ -50,7 +50,7 @@
             SELECT ?subject WHERE { 
              ?subject a ?type .
              ?type rdfs:subClassOf* crm:E21_Person .
-             ?subject rso:PX_profession <http://www.researchspace.org/profession/architect> .
+             ?subject rso:PX_profession <http://www.researchspace.org/profession/architect/> .
             }         
         '
         debounce=500
@@ -66,27 +66,35 @@
   </bs-tab>
   
   
-  <bs-tab event-key='Thesis-Search' title='Thesis Search' class="basicSearch">
+  <bs-tab event-key='Thesis-Search3' title='Thesis Search 3' class="basicSearch">
   <semantic-search>
      <semantic-search-query-keyword 
+       	
         query='
-				PREFIX wsdbm: <http://xmlns.com/wsdbm/0.1/>
-	                      SELECT distinct ?subject WHERE 
-												{
-                          ?subject wsdbm:follows	?leader .
-                          			FILTER (?subject = ?__token__)
-                         
-                        }
+				PREFIX wsdbm: <http://xmlns.com/wsdbm/0.1/> 
+				PREFIX	foaf: <http://xmlns.com/foaf/0.1/> 
+	      SELECT distinct ?s FROM <http://www.thesis.org/testing/graph> WHERE 
+            {
+              ?s ?p ?o .
+              ?s wsdbm:follows wsdbm:User24 .
+              ?s foaf:givenName ?l .
+              SERVICE <http://www.bigdata.com/rdf/search#search> {
+                           ?l bds:search ?__token__ ;
+                                    bds:minRelevance "0.3" ;
+                                    bds:matchAllTerms "true"  .
+                         }
+            }   
 
         '
         default-query='
-            PREFIX wsdbm: <http://xmlns.com/wsdbm/0.1/>
-	                      SELECT distinct ?subject WHERE 
-												{
-                          ?subject wsdbm:follows	?leader .
-                                
-                          
-                        }      
+            PREFIX wsdbm: <http://xmlns.com/wsdbm/0.1/> 
+						PREFIX	foaf: <http://xmlns.com/foaf/0.1/> 
+            SELECT distinct ?s FROM <http://www.thesis.org/testing/graph> WHERE 
+            {
+              
+              ?s wsdbm:follows wsdbm:User24 .
+              ?s foaf:givenName ?l .
+            }      
         '
         debounce=500
       ></semantic-search-query-keyword>
