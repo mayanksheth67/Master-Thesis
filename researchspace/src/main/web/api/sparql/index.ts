@@ -21,7 +21,7 @@ import * as SparqlClient from './SparqlClient';
 import * as SparqlTypeGuards from './TypeGuards';
 import * as SparqlUtil from './SparqlUtil';
 
-export { SparqlClient, SparqlTypeGuards, SparqlUtil };
+export { SparqlClient, SparqlTypeGuards, SparqlUtil};
 export * from './QueryVisitor';
 export { QueryContext } from './SparqlClient';
 export * from './QueryBinder';

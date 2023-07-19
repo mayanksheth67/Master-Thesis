@@ -1,0 +1,33 @@
+<semantic-search limit=[[#if searchLimit]][[searchLimit]][[else]]10[[/if]]>
+        <semantic-search-query-keyword 
+          [[#if searchPlaceholder]]placeholder='[[searchPlaceholder]]'[[/if]]                                 
+          domain='<http://www.w3.org/2000/01/rdf-schema#Resource>'
+          query='
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+						PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+						PREFIX bds: <http://www.bigdata.com/rdf/search#>
+            SELECT ?subject WHERE {
+              [[#if searchPattern]]
+                [[searchPattern]]
+              [[else]]                      
+                ?subject rdfs:label|skos:prefLabel ?label .
+                ?label bds:search ?__token__ ;
+                  bds:minRelevance "0.5" ;
+                  bds:relevance ?score ;
+                  bds:matchAllTerms "true" .
+                BIND(STRLEN(?label) as ?length)
+               [[/if]]
+            } ORDER BY DESC(?score) ?length
+          '
+        ></semantic-search-query-keyword>
+</semantic-search>
+
+<div>
+  <semantic-link-container uri="http://www.researchspace.org/resource/trynew">
+         <button class="btn btn-default">Search</button>
+  </semantic-link-container>
+</div>
+
+
+
+

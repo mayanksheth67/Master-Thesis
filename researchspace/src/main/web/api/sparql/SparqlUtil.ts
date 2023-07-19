@@ -25,6 +25,7 @@ import { Rdf } from 'platform/api/rdf';
 import { getCurrentResource } from '../navigation/CurrentResource';
 
 import { isQuery, isTerm, isIri } from './TypeGuards';
+import { generateText } from './testingapi3';
 
 // by default we initialized parser without prefixes so we don't need
 // to initialize it explicitly in all tests, but the expectation is that
@@ -171,6 +172,7 @@ export function Sparql(strings: TemplateStringsArray, ...values: any[]): SparqlJ
 
 function replaceQueryParams(query: string): string {
   // TODO, for legacy purpose only. Bind ?? to current resource
+  //console.log(query)
   if (typeof getCurrentResource() === 'undefined') {
     return query;
   } else {
@@ -203,7 +205,22 @@ const LUCENE_ESCAPE_REGEX = /([+\-&|!(){}\[\]^"~*?:\\])/g;
  * Create a Lucene full text search query from a user input by
  * splitting it on whitespaces and escaping any special characters.
  */
-export function makeLuceneQuery(inputText: string, escape = true, tokenize = true): Rdf.Literal {
+export function makeLuceneQuery(inputText: string, escape = true, tokenize = true, callback: (k: string) => void): Rdf.Literal {
+  console.log(inputText)
+  const words = inputText
+  let str1:string
+  if (inputText.startsWith("write") || inputText.startsWith("Write")) {
+  generateText(inputText, (k: string) => {
+    console.log(k);
+    str1 = k
+    console.log(str1)
+    var $ = require("jquery"), YASQE = require("C:/Users/ShethMayank/Documents/Master-Thesis/researchspace/node_modules/yasgui-yasqe/src/main.js");
+    console.log(str1)
+    YASQE.defaults.value = str1
+    callback(str1);
+  });
+}
+else{
   const words = inputText
     .split(' ')
     .map((w) => w.trim())
@@ -218,6 +235,7 @@ export function makeLuceneQuery(inputText: string, escape = true, tokenize = tru
       return w;
     })
     .join(' ');
+  }
   return Rdf.literal(words);
 }
 
