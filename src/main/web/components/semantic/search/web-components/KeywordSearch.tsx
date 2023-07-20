@@ -88,7 +88,7 @@ class KeywordSearchInner extends React.Component<InnerProps, State> {
     className: "input-keyword-search",
     searchTermVariable: '__token__',
     minSearchTermLength: 3,
-    debounce: 300,
+    debounce: 5000,
     escapeLuceneSyntax: true,
   };
 

@@ -33,6 +33,7 @@
     "d3-scale": "1.0.7",
     "data.either": "1.4.0",
     "data.maybe": "1.2.2",
+    "deepai": "^1.0.21",
     "docson": "github:researchspace/docson#npm",
     "dom-serializer": "github:researchspace/dom-serializer#quote-escape-fix",
     "error": "^10.0.1",
