@@ -15,7 +15,6 @@
     "types": ["systemjs"],
     "target": "es5",
     "module": "commonjs",
-    "esModuleInterop": true,
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,

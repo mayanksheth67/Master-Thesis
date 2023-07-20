@@ -26,11 +26,9 @@
               </bs-col>
             </bs-row>
           </bs-col>
-          </bs-row>
-          <!--  close row -->
-          <bs-row>
+          
           <bs-col xs="6">
-            <h2 class="admin-title" style="margin-top: 12px;">Authority - Entity configuration</h2>
+            <h2 class="admin-title" style="margin-top: 12px; padding:0 15px;">Authority - Entity configuration</h2>
             <bs-row>
               <bs-col xs="12" md="6">
                 <semantic-link-container uri='[[resolvePrefix "rsp:ThinkingFrames"]]'
@@ -49,10 +47,9 @@
                 [[>Admin:IconPanelInclude title="Authority and entity configuration" faIcon="fa fa-cog"
                 pageLink="http://www.researchspace.org/resource/system/vocab/authority_manager_config_types"]]
               </bs-col>
-             </bs-row>
-            </bs-col>
-           </bs-row>
-            
+            </bs-row>
+          </bs-col>
+        </bs-row>
         <!--  close row -->
 
         <bs-row>
@@ -72,10 +69,6 @@
             >[[>Admin:IconPanelInclude title="RDF Namespace Prefixes" faIcon="fa fa-code" pageLink=(resolvePrefix
             "Admin:Namespaces")]]
           </bs-col>
-          <bs-col xs="6" md="3"
-            >[[>Admin:IconPanelInclude title="Natural Language Search" faIcon="fa fa-sitemap"
-            pageLink="http://www.researchspace.org/NaturalLanguageSearch"]]
-          </bs-col>
           [[!-- TODO rename sparql endpoint and make it a proper link --]]
           <bs-col xs="6" md="3">
               <mp-link url="/sparql" class="rs-body-m-M">
@@ -90,6 +83,10 @@
               </mp-link>
           </bs-col>
         </bs-row>
+        <bs-col xs="6" md="3"
+            >[[>Admin:IconPanelInclude title="Natural Language Search" faIcon="fa fa-sitemap"
+            pageLink="http://www.researchspace.org/NaturalLanguageSearch"]]
+        </bs-col>
         <!--  close row -->
 
         <bs-row>

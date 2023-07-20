@@ -172,7 +172,6 @@ export function Sparql(strings: TemplateStringsArray, ...values: any[]): SparqlJ
 
 function replaceQueryParams(query: string): string {
   // TODO, for legacy purpose only. Bind ?? to current resource
-  //console.log(query)
   if (typeof getCurrentResource() === 'undefined') {
     return query;
   } else {
@@ -205,22 +204,27 @@ const LUCENE_ESCAPE_REGEX = /([+\-&|!(){}\[\]^"~*?:\\])/g;
  * Create a Lucene full text search query from a user input by
  * splitting it on whitespaces and escaping any special characters.
  */
-export function makeLuceneQuery(inputText: string, escape = true, tokenize = true, callback: (k: string) => void): Rdf.Literal {
+export function makeLuceneQuery(inputText: string, escape = true, tokenize = true): Rdf.Literal {
   console.log(inputText)
   const words = inputText
-  let str1:string
+  //let str1:string
   if (inputText.startsWith("write") || inputText.startsWith("Write")) {
-  generateText(inputText, (k: string) => {
-    console.log(k);
-    str1 = k
-    console.log(str1)
-    var $ = require("jquery"), YASQE = require("C:/Users/ShethMayank/Documents/Master-Thesis/researchspace/node_modules/yasgui-yasqe/src/main.js");
-    console.log(str1)
-    YASQE.defaults.value = str1
-    callback(str1);
-  });
-}
-else{
+    generateText(inputText) // Assuming generateText returns a Promise
+    .then(str1 => {
+      console.log(str1);
+      var $ = require("jquery"), YASQE = require("C:/Users/ShethMayank/Documents/researchspace/node_modules/yasgui-yasqe/src/main.js");
+      //console.log(str1);
+      YASQE.defaults = $.extend(true, {}, YASQE.defaults, {
+        mode: "sparql11",
+        value : "trial"
+      })
+    })
+    .catch(error => {
+      console.error("Error occurred:", error);
+    });
+  }
+  else{
+  
   const words = inputText
     .split(' ')
     .map((w) => w.trim())
