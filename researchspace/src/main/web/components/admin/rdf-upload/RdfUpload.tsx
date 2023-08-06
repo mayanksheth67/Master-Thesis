@@ -41,6 +41,7 @@ import { ErrorPresenter } from 'platform/components/ui/notification';
 import { Spinner } from 'platform/components/ui/spinner';
 import { TemplateItem } from 'platform/components/ui/template';
 
+import {CSVUpload} from '../../forms/file-manager/CSVUpload'
 import { RdfUploadExtension } from './extensions';
 
 import './RdfUpload.scss';
@@ -253,6 +254,19 @@ export class RdfUpload extends Component<Props, State> {
         {messages}
       </React.Fragment>
     );
+
+    const csvFileUploadTab = (
+      <React.Fragment>
+        {progressBar}
+        <div className={noteClass}>
+          CSV files can be uploaded using the drag&amp;drop field below. Clicking into the field will open the
+          browser's default file selector.
+        </div>
+        <CSVUpload/>
+        {messages}
+      </React.Fragment>
+    );
+
     return (
       <div className={classnames(CLASS_NAME, className)} style={style}>
         {this.props.showAdvancedOptions ?
@@ -263,7 +277,7 @@ export class RdfUpload extends Component<Props, State> {
         }
         {showLoadByUrlTab ?
          <Tabs id="rdf-upload-tabs" unmountOnExit={true}>
-           <Tab eventKey={1} className={tabClass} title="File Upload" disabled={isInProcess}>
+           <Tab eventKey={1} className={tabClass} title="RDF File Upload" disabled={isInProcess}>
              {fileUploadTab}
            </Tab>
            <Tab eventKey={2} className={tabClass} title="Load by HTTP/FTP/File URL" disabled={isInProcess}>
@@ -292,6 +306,9 @@ export class RdfUpload extends Component<Props, State> {
                Load by URL
              </Button>
              {messages}
+           </Tab>
+           <Tab eventKey={3} className={tabClass} title="CSV File Upload" disabled={isInProcess}>
+             {csvFileUploadTab}
            </Tab>
          </Tabs>
         : fileUploadTab}
