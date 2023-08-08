@@ -205,26 +205,6 @@ const LUCENE_ESCAPE_REGEX = /([+\-&|!(){}\[\]^"~*?:\\])/g;
  * splitting it on whitespaces and escaping any special characters.
  */
 export function makeLuceneQuery(inputText: string, escape = true, tokenize = true): Rdf.Literal {
-  console.log(inputText)
-  const words = inputText
-  //let str1:string
-  if (inputText.startsWith("write") || inputText.startsWith("Write")) {
-    generateText(inputText) // Assuming generateText returns a Promise
-    .then(str1 => {
-      console.log(str1);
-      var $ = require("jquery"), YASQE = require("C:/Users/ShethMayank/Documents/researchspace/node_modules/yasgui-yasqe/src/main.js");
-      //console.log(str1);
-      YASQE.defaults = $.extend(true, {}, YASQE.defaults, {
-        mode: "sparql11",
-        value : "trial"
-      })
-    })
-    .catch(error => {
-      console.error("Error occurred:", error);
-    });
-  }
-  else{
-  
   const words = inputText
     .split(' ')
     .map((w) => w.trim())
@@ -239,7 +219,6 @@ export function makeLuceneQuery(inputText: string, escape = true, tokenize = tru
       return w;
     })
     .join(' ');
-  }
   return Rdf.literal(words);
 }
 

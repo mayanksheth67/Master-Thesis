@@ -1,5 +1,5 @@
 
-const text = 'Write a sparql query for all users from "Germany" who speak "Latin" using prefix wsdm';
+const text = 'Write a sparql query for all users from "Germany" who speak "Latin" using prefix wsdbm';
 //const fetch = require("node-fetch");
 export function generateText(text) {
   const url = "https://api.deepai.org/api/text-generator";
