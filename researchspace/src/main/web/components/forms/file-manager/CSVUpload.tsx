@@ -21,6 +21,11 @@ import * as _ from 'lodash';
 import * as ReactBootstrap from 'react-bootstrap';
 import ReactSelect from 'react-select';
 
+import axios from 'axios';
+// import * as request from 'platform/api/http';
+// import { requestAsProperty } from 'platform/api/async';
+// import * as Kefir from 'kefir';
+
 import { Cancellation } from 'platform/api/async';
 import { Component } from 'platform/api/components';
 import { getStorageStatus, ConfigStorageStatus } from 'platform/api/services/config';
@@ -33,12 +38,14 @@ import { addNotification } from 'platform/components/ui/notification';
 import { getFileIcon } from './FileVisualizer';
 
 import * as styles from './FileManager.scss';
+import { useEffect, useState } from 'react';
 
 // const OBJECT_KINDS = ['file'];
 const OBJECT_KINDS = 'file';
 const CSV_DATA_FOLDER = '/data/';
 const STORAGE_ID = 'runtime';
 // const ACCEPT_PATTERN = 'text/csv'
+const FLASK_BASE_URL = 'http://localhost:5000/';
 
 interface FilePath {
   objectKind: string;
@@ -55,6 +62,7 @@ export interface State {
   storageId?: string;
   path?: FilePath;
   file?: File;
+  dataColumns?: [];
 }
 
 export interface Props {
@@ -111,6 +119,7 @@ export class CSVUpload extends Component<Props, State> {
       progress: undefined,
       progressText: undefined,
       storageId: STORAGE_ID,
+      dataColumns: undefined,
       path: {
         folder: CSV_DATA_FOLDER,
         objectKind,
@@ -200,6 +209,24 @@ export class CSVUpload extends Component<Props, State> {
           });
         },
       });
+
+      this.getColumnsForMapping();
+    // const req = request.get('http://127.0.0.1:5000/columndetails?dataFileName=data.csv')
+    // console.log(requestAsProperty(req).map((res) => res.text))
+    // console.log(Kefir.fromNodeCallback<Record<string, string>>((cb) => req.end((err, res) => cb(err, res.body))).toProperty())
+    // //http://127.0.0.1:5000/columndetails?dataFileName=data.csv
+  }
+
+  getColumnsForMapping(){
+    const fileName = this.state.path.name;
+    
+    axios.get(FLASK_BASE_URL + 'columndetails?dataFileName=' + fileName)
+    .then(response => {
+      this.setState({dataColumns : response.data});
+    })
+    .catch(error =>{
+      console.log('Unable to fetch the Columns for RDF Mapping')
+    });    
   }
 
   onDropAccepted(files: File[]) {
@@ -274,6 +301,22 @@ export class CSVUpload extends Component<Props, State> {
     const { storages: storages, path, file, storageId } = this.state;
     const fileNotSelected = !file;
     const renderedPath = `${storageId}: ${this.getFolder()}/${path.name || 'undefined'}`;
+    
+    const isMappingDataAvailable = this.state.dataColumns? true: false;
+
+    var creatingMappingData = null;
+    
+    if (isMappingDataAvailable){
+      var validMappingColumns = this.state.dataColumns;
+      creatingMappingData = (
+        <React.Fragment>
+          <label>Mapping Data</label>
+          <div>
+            <h1></h1>
+          </div>
+        </React.Fragment>
+      );
+    }
 
     return (
       <div className={styles.DirectFileUploader}>
@@ -404,8 +447,8 @@ export class CSVUpload extends Component<Props, State> {
               Upload
             </button>
           </div>
-
-          </div>
+          {creatingMappingData}           
+          </div>         
         </div>
         {/* <div className={styles.row} style={{ flexDirection: 'column', marginTop: '30px' }}>
           <label>Target Path Preview</label>
